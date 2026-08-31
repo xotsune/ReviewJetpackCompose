@@ -19,14 +19,16 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TogglePractice() {
     // TODO 1: declare the state here
+    var isOn by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(24.dp)) {
 
         // TODO 2: make this text depend on the state
-        Text(text = "Off")
-
+        Text(text = if (isOn) "On" else "Off")
+        Text(if (isOn) "🟢 Running" else "🔴 Stopped")
         Button(onClick = {
             // TODO 3: change the state here
+            isOn = !isOn
         }) {
             Text("Toggle")
         }
@@ -47,7 +49,7 @@ fun BrokenToggle() {
     var isOn by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(24.dp)) {
-        Text(text = "Off")
+        Text(text = if (isOn) "On" else "Off")
 
         Button(onClick = { isOn = !isOn }) {
             Text("Toggle")
