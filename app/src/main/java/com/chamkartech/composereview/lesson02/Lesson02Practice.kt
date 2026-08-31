@@ -22,16 +22,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ExpenseRowPractice() {
     // PROBLEM 1: this stacks vertically, you need horizontal
-    Column(
+    Row(
         modifier = Modifier
             // PROBLEM 2: the background does not cover the padding
-            .padding(16.dp)
             .background(Color(0xFFE8ECFF))
+            .padding(16.dp)
             .fillMaxWidth()
     ) {
         Text("Iced coffee")
 
         // TODO: push the price to the right edge
+        Spacer(Modifier.weight(1f))
 
         Text("6,000 R")
     }
@@ -44,9 +45,14 @@ fun ExpenseRowPractice() {
  */
 @Composable
 fun ThreeAcrossPractice() {
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         Text("Left")
+        Spacer(Modifier.weight(1f))
         Text("Middle")
+        Spacer(Modifier.weight(1f))
         Text("Right")
     }
 }
