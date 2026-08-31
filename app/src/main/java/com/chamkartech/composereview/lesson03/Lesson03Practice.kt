@@ -1,11 +1,16 @@
 package com.chamkartech.composereview.lesson03
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chamkartech.composereview.common.Expense
@@ -28,15 +33,16 @@ import com.chamkartech.composereview.common.loadExpenses
 @Composable
 fun ExpenseListPractice(expenses: List<Expense> = loadExpenses(200)) {
     // TODO 1: switch to LazyColumn
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
             // TODO 3: this padding must go inside the scroll area
-            .padding(16.dp)
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+
     ) {
         // TODO 2: use items() and add a key
-        expenses.forEach { item ->
+        items(expenses, key = { it.id }) { item ->
             ExpenseRow(item)
         }
     }
