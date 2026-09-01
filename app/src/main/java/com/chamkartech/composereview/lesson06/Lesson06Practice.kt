@@ -1,5 +1,6 @@
 package com.chamkartech.composereview.lesson06
 
+import android.os.Parcelable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -7,8 +8,10 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.parcelize.Parcelize
 
 /*
  * LESSON 6 — PRACTICE
@@ -25,9 +28,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SignUpFormPractice() {
     // TODO: all three of these are lost on rotation
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var agreed by remember { mutableStateOf(false) }
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var agreed by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(24.dp)) {
         OutlinedTextField(
@@ -57,3 +60,5 @@ fun SignUpFormPractice() {
      * The kotlin-parcelize plugin is already enabled in this project.
      */
 }
+@Parcelize
+data class Plan(val name: String, val price: Int) : Parcelable

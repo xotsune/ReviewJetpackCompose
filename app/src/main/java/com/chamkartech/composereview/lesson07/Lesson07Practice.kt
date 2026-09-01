@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chamkartech.composereview.common.Expense
 import com.chamkartech.composereview.common.ExpenseRow
 import com.chamkartech.composereview.common.loadExpenses
@@ -37,31 +38,41 @@ class ExpenseViewModelPractice : ViewModel() {
 
     // TODO 1: load the expenses here, in an init block,
     //         and compute the total while you are at it
+    init {
+        val initialExpenses = loadExpenses(200)
+        _uiState.value = ExpenseUiState(
+            expenses = initialExpenses,
+            total = initialExpenses.sumOf { it.amount }
+        )
+    }
 
     // TODO 3: this runs, the data is correct, and the screen never moves.
     //         Log the list size to prove the data changed, then work out
     //         why the UI does not know, and fix it.
     fun addExpense(item: Expense) {
-        _uiState.value.expenses.toMutableList().add(item)
+        val newExpenses = _uiState.value.expenses + item
+        _uiState.value = _uiState.value.copy(
+            expenses = newExpenses,
+            total = newExpenses.sumOf { it.amount }
+        )
     }
 }
 
 @Composable
-fun ExpenseScreenWithViewModel() {
+fun ExpenseScreenWithViewModel(viewModel: ExpenseViewModelPractice = viewModel()) {
+    val state by viewModel.uiState.collectAsState()
     // TODO 1: delete this line, take the data from the ViewModel instead
-    val expenses by remember { mutableStateOf(loadExpenses(200)) }
 
     // TODO 2: this calculation belongs in the ViewModel, not in the UI
-    val total = expenses.sumOf { it.amount }
 
     Column {
-        Text("Total: $total R")
+        Text("Total: ${state.total} R")
 
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(expenses, key = { it.id }) { ExpenseRow(it) }
+            items(state.expenses, key = { it.id }) { ExpenseRow(it) }
         }
     }
 }
